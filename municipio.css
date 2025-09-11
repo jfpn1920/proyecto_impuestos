@@ -1,0 +1,292 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f4f4f4;
+}
+/*-------------------------------*/
+/*--|estilo_sesion_del_usuario|--*/
+/*-------------------------------*/
+.contenedor {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #333;
+    margin-top: 5px;
+    margin-left: 5px;
+    border-radius: 5px;
+    width: 1375px;
+    color: white;
+    padding: 15px 20px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+.titulo {
+    font-size: 22px;
+    margin: 0;
+}
+.perfil i {
+    font-size: 32px;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+.perfil i:hover {
+    color: #00bcd4;
+}
+/*-----------------------------*/
+/*--|estilo_menu_hamburguesa|--*/
+/*-----------------------------*/
+.topbar {
+    display: flex;
+    align-items: center;
+    background: #333;
+    color: white;
+    padding: 15px;
+    position: relative;
+    top: 5px;
+    left: 5px;
+    width: 170px;
+    border-radius: 5px;
+}
+.menu-toggle {
+    font-size: 24px;
+    cursor: pointer;
+    margin-right: 15px;
+}
+.titulo {
+    font-size: 20px;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+.sidebar {
+    position: relative;
+    top: 10px;
+    left: -250px;
+    width: 200px;
+    height: 613px;
+    border-radius: 5px;
+    transition: left 0.3s ease;
+    z-index: 1500;
+    padding-top: 60px;
+}
+#sidebar{
+    margin-left: 5px;
+    background-color: #222;
+}
+.sidebar.active {
+    left: 0;
+}
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+    margin-top: -60px;
+}
+.sidebar ul li a {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 15px;
+    color: white;
+    text-decoration: none;
+    transition: background 0.3s;
+}
+.sidebar ul li a:hover {
+    background: #444;
+}
+/*---------------------------------*/
+/*--|estilo_agregar_el_municipio|--*/
+/*---------------------------------*/
+.municipio-card {
+    margin-top: -726px;
+    margin-left: 210px;
+    width: 400px;
+    background: #666;
+    border: 1px solid #333;
+    border-radius: 5px;
+    padding: 10px;
+    font-family: Arial, sans-serif;
+}
+.municipio-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    color: #000;
+    font-weight: bold;
+}
+.btn-add {
+    padding: 5px 10px;
+    border: 1px solid #333;
+    border-radius: 5px;
+    background: #fff;
+    cursor: pointer;
+    font-weight: bold;
+}
+.btn-add:hover {
+    background: #ddd;
+}
+.municipio-card input {
+    width: 94.5%;
+    padding: 10px;
+    font-size: 16px;
+    text-align: center;
+    font-weight: bold;
+    border: 1px solid #333;
+    border-radius: 5px;
+}
+/*-------------------------------*/
+/*--|estilo_agregar_el_archivo|--*/
+/*-------------------------------*/
+.contenedor2 {
+    width: 600px;
+    border: 1px solid #333;
+    border-radius: 5px;
+    background: #555;
+    padding: 10px;
+    margin-top: 5px;
+    margin-left: 210px;
+    width: 401px;
+}
+.header2 {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+.header2 h3 {
+    margin: 0;
+    font-size: 16px;
+    font-weight: bold;
+    color: black;
+}
+.botones2 {
+    display: flex;
+    gap: 8px;
+}
+.botones2 button {
+    padding: 5px 12px;
+    font-size: 13px;
+    font-weight: bold;
+    border: 1px solid #333;
+    border-radius: 3px;
+    cursor: pointer;
+    background: white;
+}
+.botones2 button:hover {
+    background: #ddd;
+}
+.area2 {
+    width: 100%;
+    height: 100px;
+    border: 1px solid #333;
+    border-radius: 4px;
+    background: white;
+}
+/*----------------------------------*/
+/*--|estilo_municipios_pendientes|--*/
+/*----------------------------------*/
+.container {
+    background: #666;
+    border: 1px solid #333;
+    border-radius: 5px;
+    padding: 10px;
+    width: 400px;
+    height: 400px;
+    margin-top: 5px;
+    margin-left: 210px;
+}
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 10px;
+    width: 388px;
+}
+.header h3 {
+    margin: 0;
+    font-size: 14px;
+    font-weight: bold;
+    color: black;
+}
+.header button {
+    padding: 4px 8px;
+    font-size: 12px;
+    font-weight: bold;
+    border: 1px solid #333;
+    border-radius: 5px;
+    cursor: pointer;
+    background: white;
+}
+.content {
+    margin-top: 10px;
+}
+.textarea-box {
+    width: 100%;
+    height: 355px;
+    border: 2px solid #333;
+    border-radius: 4px;
+    resize: none;
+    padding: 8px;
+    font-size: 14px;
+    box-sizing: border-box;
+}
+/*---------------------------------*/
+/*--|estilo_tablero_de_municipio|--*/
+/*---------------------------------*/
+.tablero {
+    background: #666;
+    border: 1px solid #333;
+    border-radius: 5px;
+    width: 761px;
+    height: 668px;
+    margin-top: -690px;
+    margin-left: 637px;
+    padding: 10px;
+    color: black;
+}
+.tablero-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px;
+    border-radius: 3px;
+}
+.tablero-header h3 {
+    margin: 0;
+    font-size: 14px;
+    font-weight: bold;
+    color: black;
+}
+.tablero-header .btns {
+    display: flex;
+    gap: 5px;
+}
+.tablero-header button {
+    padding: 4px 10px;
+    font-size: 12px;
+    border: 1px solid #333;
+    border-radius: 3px;
+    background: white;
+    cursor: pointer;
+    font-weight: bold;
+}
+.tablero-header button:hover {
+    background: #ddd;
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+    background: #777;
+    border-radius: 3px;
+    overflow: hidden;
+}
+table th, table td {
+    padding: 8px;
+    text-align: center;
+    border: 1px solid #444;
+    background: #eee;
+    font-size: 13px;
+}
+table th {
+    background: #fff;
+    font-weight: bold;
+}

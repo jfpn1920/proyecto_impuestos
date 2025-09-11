@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>municipios</title>
+    <link rel="stylesheet" href="municipio.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
+    <script src="municipio.js" defer></script>
+</head>
+<body>
+    <!----------------------------------->
+    <!--|estructura_sesion_del_usuario|-->
+    <!----------------------------------->
+    <div class="contenedor">
+        <h1 class="titulo">Panel de Control</h1>
+        <div class="perfil">
+            <i class="fas fa-user-circle"></i>
+        </div>
+    </div>
+    <!--------------------------------->
+    <!--|estructura_menu_hamburguesa|-->
+    <!--------------------------------->
+    <header class="topbar">
+        <div class="menu-toggle" id="menu-toggle">
+            <i class="fas fa-bars"></i>
+        </div>
+        <span class="titulo">Instrumentos</span>
+    </header>
+    <nav class="sidebar" id="sidebar">
+        <ul>
+            <li><a href="#"><i class="fas fa-home"></i> Dashboard</a></li>
+            <li><a href="#"><i class="fas fa-globe"></i> Municipios</a></li>
+            <li><a href="#"><i class="fas fa-file-signature"></i> Declaraciones</a></li>
+        </ul>
+    </nav>
+    <!------------------------------------->
+    <!--|estructura_agregar_el_municipio|-->
+    <!------------------------------------->
+    <div class="municipio-card">
+        <div class="municipio-header">
+            <span>agregar el municipio</span>
+            <button class="btn-add">añadir municipio</button>
+        </div>
+        <input type="text" placeholder="escribir el nombre del municipio">
+    </div>
+    <!----------------------------------->
+    <!--|estructura_agregar_el_archivo|-->
+    <!----------------------------------->
+    <div class="contenedor2">
+        <div class="header2">
+            <h3>agregar el archivo</h3>
+            <div class="botones2">
+                <button>agregar archivo</button>
+                <button>borrar archivo</button>
+            </div>
+        </div>
+        <div class="area2"></div>
+    </div>
+    <!-------------------------------------->
+    <!--|estructura_municipios_pendientes|-->
+    <!-------------------------------------->
+    <div class="container">
+        <div class="header">
+            <h3>municipios pendientes</h3>
+            <button>quitar municipio</button>
+        </div>
+        <div class="content">
+            <textarea class="textarea-box" placeholder=""></textarea>
+        </div>
+    </div>
+    <!------------------------------------->
+    <!--|estructura_tablero_de_municipio|-->
+    <!------------------------------------->
+    <div class="tablero">
+        <div class="tablero-header">
+            <h3>Tablero de municipio</h3>
+            <div class="btns">
+                <button>guardar todo</button>
+                <button>eliminar todo</button>
+            </div>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>municipio</th>
+                    <th>archivo</th>
+                    <th>acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Aquí quedará vacío, listo para llenarse dinámicamente -->
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
