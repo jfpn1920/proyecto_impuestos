@@ -130,32 +130,22 @@ btnEnviar.addEventListener("click", () => {
 document.addEventListener("DOMContentLoaded", () => {
     const tbody = document.querySelector(".municipios-table tbody");
     const btnQuitarTodo = document.querySelector(".btn-quitar-todo");
-    //----------------------------------------
-    // Obtener municipios desde localStorage
-    //----------------------------------------
-    function obtenerMunicipios() {
+    function obtenerPendientes() {
         return JSON.parse(localStorage.getItem("municipiosPendientes")) || [];
     }
-    function guardarMunicipios(municipios) {
+    function guardarPendientes(municipios) {
         localStorage.setItem("municipiosPendientes", JSON.stringify(municipios));
     }
-    //----------------------------------------
-    // Renderizar tabla
-    //----------------------------------------
-    function renderTabla() {
+    function renderTablaPendientes() {
         tbody.innerHTML = "";
-        const municipios = obtenerMunicipios();
+        const municipios = obtenerPendientes();
         municipios.forEach((m, index) => {
             const tr = document.createElement("tr");
-            // Nombre
             const tdNombre = document.createElement("td");
             tdNombre.textContent = m.nombre;
-            // Archivo
             const tdArchivo = document.createElement("td");
             tdArchivo.textContent = m.archivo ? m.archivo : "Sin archivo";
-            // Acciones
             const tdAcciones = document.createElement("td");
-            // Icono eliminar
             const iconEliminar = document.createElement("i");
             iconEliminar.className = "fa-solid fa-trash";
             iconEliminar.style.cursor = "pointer";
@@ -163,16 +153,17 @@ document.addEventListener("DOMContentLoaded", () => {
             iconEliminar.style.color = "red";
             iconEliminar.title = "Eliminar";
             iconEliminar.addEventListener("click", () => {
-                eliminarMunicipio(index);
+                if (confirm(`¿Seguro que deseas eliminar el municipio "${m.nombre}"?`)) {
+                    eliminarPendiente(index);
+                }
             });
-            // Icono quitar de pendientes
             const iconQuitarPendiente = document.createElement("i");
             iconQuitarPendiente.className = "fa-solid fa-check-circle";
             iconQuitarPendiente.style.cursor = "pointer";
             iconQuitarPendiente.style.color = "green";
             iconQuitarPendiente.title = "Quitar de pendientes";
             iconQuitarPendiente.addEventListener("click", () => {
-                quitarDePendientes(index);
+                moverATablero(index);
             });
             tdAcciones.appendChild(iconEliminar);
             tdAcciones.appendChild(iconQuitarPendiente);
@@ -182,36 +173,36 @@ document.addEventListener("DOMContentLoaded", () => {
             tbody.appendChild(tr);
         });
     }
-    //----------------------------------------
-    // Eliminar municipio individual
-    //----------------------------------------
-    function eliminarMunicipio(index) {
-        let municipios = obtenerMunicipios();
+    function eliminarPendiente(index) {
+        let municipios = obtenerPendientes();
         municipios.splice(index, 1);
-        guardarMunicipios(municipios);
-        renderTabla();
+        guardarPendientes(municipios);
+        renderTablaPendientes();
     }
-    //----------------------------------------
-    // Quitar de pendientes (solo lo quita de la lista de pendientes)
-    //----------------------------------------
-    function quitarDePendientes(index) {
-        let municipios = obtenerMunicipios();
-        const municipioQuitado = municipios.splice(index, 1)[0];
-        guardarMunicipios(municipios);
-        renderTabla();
-        alert(`El municipio "${municipioQuitado.nombre}" fue quitado de pendientes.`);
+    function moverATablero(index) {
+        let pendientes = obtenerPendientes();
+        const municipioQuitado = pendientes.splice(index, 1)[0];
+        guardarPendientes(pendientes);
+        let principales = JSON.parse(localStorage.getItem("municipios")) || [];
+        principales.push(municipioQuitado);
+        localStorage.setItem("municipios", JSON.stringify(principales));
+        renderTablaPendientes();
+        renderTablaTablero();
     }
-    //----------------------------------------
-    // Eliminar todos
-    //----------------------------------------
     btnQuitarTodo.addEventListener("click", () => {
+        let pendientes = obtenerPendientes();
+        if (pendientes.length === 0) {
+            alert("No hay municipios pendientes para regresar.");
+            return;
+        }
+        let tablero = JSON.parse(localStorage.getItem("municipios")) || [];
+        tablero = tablero.concat(pendientes);
+        localStorage.setItem("municipios", JSON.stringify(tablero));
         localStorage.removeItem("municipiosPendientes");
-        renderTabla();
+        renderTablaPendientes();
+        renderTablaTablero();
     });
-    //----------------------------------------
-    // Inicializar tabla
-    //----------------------------------------
-    renderTabla();
+    renderTablaPendientes();
 });
 //----------------------------------------//
 //--|funcionalidad_tablero_de_municipio|--//
@@ -223,20 +214,13 @@ document.addEventListener("DOMContentLoaded", () => {
     const tbody = document.querySelector(".tablero table tbody");
     const btnGuardarTodo = document.querySelector(".tablero .btns button:nth-child(1)");
     const btnEliminarTodo = document.querySelector(".tablero .btns button:nth-child(2)");
-    //----------------------------------------
-    // Guardar en pendientes
-    //----------------------------------------
     function guardarPendiente(municipioObj) {
         let pendientes = JSON.parse(localStorage.getItem("municipiosPendientes")) || [];
-        // Evitar duplicados
         if (!pendientes.some(m => m.nombre === municipioObj.nombre)) {
             pendientes.push(municipioObj);
             localStorage.setItem("municipiosPendientes", JSON.stringify(pendientes));
         }
     }
-    //----------------------------------------
-    // Agregar fila
-    //----------------------------------------
     function agregarFila(municipioObj) {
         const tr = document.createElement("tr");
         const tdMunicipio = document.createElement("td");
@@ -244,7 +228,6 @@ document.addEventListener("DOMContentLoaded", () => {
         const tdArchivo = document.createElement("td");
         tdArchivo.textContent = municipioObj.archivo ? municipioObj.archivo : "Sin archivo";
         const tdAcciones = document.createElement("td");
-        // Icono pendiente
         const iconPendiente = document.createElement("i");
         iconPendiente.className = "fa-solid fa-clock";
         iconPendiente.style.cursor = "pointer";
@@ -252,11 +235,10 @@ document.addEventListener("DOMContentLoaded", () => {
         iconPendiente.style.color = "#f0ad4e";
         iconPendiente.title = "Marcar pendiente";
         iconPendiente.addEventListener("click", () => {
-            guardarPendiente(municipioObj);   // ✅ Guardar en pendientes
-            eliminarMunicipio(municipioObj.nombre); // ✅ Eliminar del tablero principal
-            renderTabla(); // ✅ Volver a pintar
+            guardarPendiente(municipioObj);
+            eliminarMunicipio(municipioObj.nombre);
+            renderTablaTablero();
         });
-        // Icono eliminar
         const iconEliminar = document.createElement("i");
         iconEliminar.className = "fa-solid fa-trash";
         iconEliminar.style.cursor = "pointer";
@@ -265,9 +247,8 @@ document.addEventListener("DOMContentLoaded", () => {
         iconEliminar.title = "Eliminar";
         iconEliminar.addEventListener("click", () => {
             eliminarMunicipio(municipioObj.nombre);
-            renderTabla();
+            renderTablaTablero();
         });
-        // Icono enviar
         const iconEnviar = document.createElement("i");
         iconEnviar.className = "fa-solid fa-paper-plane";
         iconEnviar.style.cursor = "pointer";
@@ -284,9 +265,6 @@ document.addEventListener("DOMContentLoaded", () => {
         tr.appendChild(tdAcciones);
         tbody.appendChild(tr);
     }
-    //----------------------------------------
-    // LocalStorage de tablero principal
-    //----------------------------------------
     function obtenerMunicipios() {
         return JSON.parse(localStorage.getItem("municipios")) || [];
     }
@@ -311,14 +289,11 @@ document.addEventListener("DOMContentLoaded", () => {
     function eliminarTodosMunicipios() {
         localStorage.removeItem("municipios");
     }
-    function renderTabla() {
+    window.renderTablaTablero = function () {
         tbody.innerHTML = "";
         const municipiosGuardados = obtenerMunicipios();
         municipiosGuardados.forEach(m => agregarFila(m));
-    }
-    //----------------------------------------
-    // Eventos botones
-    //----------------------------------------
+    };
     btnAddMunicipio.addEventListener("click", () => {
         const municipio = inputMunicipio.value.trim();
         const archivo = inputArchivo && inputArchivo.files.length > 0
@@ -326,7 +301,7 @@ document.addEventListener("DOMContentLoaded", () => {
             : null;
         if (municipio !== "") {
             if (guardarMunicipio(municipio, archivo)) {
-                renderTabla();
+                renderTablaTablero();
                 inputMunicipio.value = "";
                 if (inputArchivo) inputArchivo.value = "";
             }
@@ -340,10 +315,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
     btnEliminarTodo.addEventListener("click", () => {
         eliminarTodosMunicipios();
-        renderTabla();
+        renderTablaTablero();
     });
-    //----------------------------------------
-    // Inicializar
-    //----------------------------------------
-    renderTabla();
+    renderTablaTablero();
 });
