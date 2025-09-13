@@ -42,20 +42,25 @@
             <span>agregar el municipio</span>
             <button class="btn-add">añadir municipio</button>
         </div>
-        <input type="text" placeholder="escribir el nombre del municipio">
+        <input type="text" id="municipioInput" placeholder="escribir el nombre del municipio">
     </div>
     <!----------------------------------->
     <!--|estructura_agregar_el_archivo|-->
     <!----------------------------------->
     <div class="contenedor2">
         <div class="header2">
-            <h3>agregar el archivo</h3>
+            <h3>el archivo</h3>
             <div class="botones2">
-                <button>agregar archivo</button>
-                <button>borrar archivo</button>
+                <!-- Botones -->
+                <button id="btnSeleccionar">seleccionar archivo</button>
+                <button id="btnEnviar">enviar archivo</button>
+                <!-- Input oculto para seleccionar -->
+                <input type="file" id="inputArchivo" accept=".xls,.xlsx" style="display:none" multiple>
             </div>
         </div>
-        <div class="area2"></div>
+        <div class="area2" id="areaArchivos">
+            <!-- Aquí se mostrarán los archivos seleccionados -->
+        </div>
     </div>
     <!-------------------------------------->
     <!--|estructura_municipios_pendientes|-->
@@ -63,10 +68,21 @@
     <div class="container">
         <div class="header">
             <h3>municipios pendientes</h3>
-            <button>quitar municipio</button>
+            <button class="btn-quitar-todo">quitar todo</button>
         </div>
         <div class="content">
-            <textarea class="textarea-box" placeholder=""></textarea>
+            <table class="municipios-table">
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Archivo</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- El tablero empieza vacío -->
+                </tbody>
+            </table>
         </div>
     </div>
     <!------------------------------------->
@@ -76,8 +92,9 @@
         <div class="tablero-header">
             <h3>Tablero de municipio</h3>
             <div class="btns">
-                <button>guardar todo</button>
-                <button>eliminar todo</button>
+                <button>pendiente todo</button>
+                <button id="eliminarTodo">eliminar todo</button>
+                <button id="guardarTodo">guardar todo</button>
             </div>
         </div>
         <table>
@@ -88,8 +105,8 @@
                     <th>acciones</th>
                 </tr>
             </thead>
-            <tbody>
-                <!-- Aquí quedará vacío, listo para llenarse dinámicamente -->
+            <tbody id="municipioTableBody">
+                <!-- Aquí se insertarán las filas dinámicamente -->
             </tbody>
         </table>
     </div>
