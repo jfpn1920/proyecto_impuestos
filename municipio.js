@@ -6,6 +6,23 @@ const sidebar = document.getElementById('sidebar');
 toggle.addEventListener('click', () => {
     sidebar.classList.toggle('active');
 });
+//------------------------------------//
+//--|funcionalidad_contenedor_mensaje|//
+//------------------------------------//
+function mostrarMensaje(texto, tipo = "info") {
+    const contenedor = document.getElementById("mensajeContenedor");
+    if (!contenedor) return;
+    const mensaje = document.createElement("div");
+    mensaje.classList.add("mensaje", tipo);
+    mensaje.textContent = texto;
+    contenedor.appendChild(mensaje);
+    setTimeout(() => {
+        mensaje.style.animation = "fadeOut 0.5s ease forwards";
+        mensaje.addEventListener("animationend", () => {
+            mensaje.remove();
+        });
+    }, 5000);
+}
 //----------------------------------------//
 //--|funcionalidad_agregar_el_municipio|--//
 //----------------------------------------//
@@ -14,12 +31,12 @@ const inputMunicipio = document.getElementById("municipioInput");
 btnAdd.addEventListener("click", () => {
     const nombreMunicipio = inputMunicipio.value.trim();
     if (nombreMunicipio === "") {
-        alert("Por favor, escribe el nombre del municipio.");
+        mostrarMensaje("⚠️ Por favor, escribe el nombre del municipio.", "error");
         return;
     }
-    console.log("Municipio agregado:", nombreMunicipio);
     agregarFila(nombreMunicipio);
     guardarMunicipio(nombreMunicipio);
+    mostrarMensaje(`✅ Municipio "${nombreMunicipio}" agregado correctamente.`, "success");
     inputMunicipio.value = "";
 });
 //--------------------------------------//
