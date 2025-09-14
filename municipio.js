@@ -81,6 +81,7 @@ inputArchivo.addEventListener("change", () => {
     archivosSeleccionados = Array.from(inputArchivo.files).map(f => f.name);
     localStorage.setItem("archivos", JSON.stringify(archivosSeleccionados)); 
     mostrarArchivos();
+    mostrarMensaje("✅ Archivo seleccionado correctamente.", "success"); // 👈 agregado
 });
 function mostrarArchivos() {
     areaArchivos.innerHTML = "";
@@ -107,13 +108,13 @@ function mostrarArchivos() {
 }
 btnEnviar.addEventListener("click", () => {
     if (archivosSeleccionados.length === 0) {
-        alert("Primero selecciona un archivo.");
+        mostrarMensaje("⚠️ Primero selecciona un archivo.", "error"); // 👈 reemplazo del alert
         return;
     }
     const tbody = document.getElementById("municipioTableBody");
     const ultimaFila = tbody.lastElementChild;
     if (!ultimaFila) {
-        alert("Primero añade un municipio antes de asignar un archivo.");
+        mostrarMensaje("⚠️ Primero añade un municipio antes de asignar un archivo.", "error"); // 👈 reemplazo del alert
         return;
     }
     const tdArchivo = ultimaFila.querySelector("td:nth-child(2)");
@@ -137,6 +138,7 @@ btnEnviar.addEventListener("click", () => {
     });
     localStorage.setItem("municipiosConArchivo", JSON.stringify(municipios));
     console.log("Archivo asignado:", archivosSeleccionados[0], "al municipio:", municipio);
+    mostrarMensaje(`✅ Archivo "${archivosSeleccionados[0]}" asignado al municipio "${municipio}".`, "success"); // 👈 agregado
     archivosSeleccionados = [];
     localStorage.setItem("archivos", JSON.stringify([]));
     areaArchivos.innerHTML = "";
@@ -147,29 +149,22 @@ btnEnviar.addEventListener("click", () => {
 document.addEventListener("DOMContentLoaded", () => {
     const tbody = document.querySelector(".municipios-table tbody");
     const btnQuitarTodo = document.querySelector(".btn-quitar-todo");
-
     function obtenerPendientes() {
         return JSON.parse(localStorage.getItem("municipiosPendientes")) || [];
     }
-
     function guardarPendientes(municipios) {
         localStorage.setItem("municipiosPendientes", JSON.stringify(municipios));
     }
-
     function renderTablaPendientes() {
         tbody.innerHTML = "";
         const municipios = obtenerPendientes();
         municipios.forEach((m, index) => {
             const tr = document.createElement("tr");
-
             const tdNombre = document.createElement("td");
             tdNombre.textContent = m.nombre;
-
             const tdArchivo = document.createElement("td");
             tdArchivo.textContent = m.archivo ? m.archivo : "Sin archivo";
-
             const tdAcciones = document.createElement("td");
-
             const iconEliminar = document.createElement("i");
             iconEliminar.className = "fa-solid fa-trash";
             iconEliminar.style.cursor = "pointer";
@@ -179,52 +174,46 @@ document.addEventListener("DOMContentLoaded", () => {
             iconEliminar.addEventListener("click", () => {
                 if (confirm(`¿Seguro que deseas eliminar el municipio "${m.nombre}"?`)) {
                     eliminarPendiente(index);
+                    mostrarMensaje(`🗑️ Municipio "${m.nombre}" eliminado de pendientes.`, "error");
                 }
             });
-
             const iconQuitarPendiente = document.createElement("i");
             iconQuitarPendiente.className = "fa-solid fa-check-circle";
             iconQuitarPendiente.style.cursor = "pointer";
             iconQuitarPendiente.style.color = "green";
             iconQuitarPendiente.title = "Quitar de pendientes";
             iconQuitarPendiente.addEventListener("click", () => {
-                moverATablero(index);
+                moverATablero(index, m.nombre);
             });
-
             tdAcciones.appendChild(iconEliminar);
             tdAcciones.appendChild(iconQuitarPendiente);
-
             tr.appendChild(tdNombre);
             tr.appendChild(tdArchivo);
             tr.appendChild(tdAcciones);
             tbody.appendChild(tr);
         });
     }
-
     function eliminarPendiente(index) {
         let municipios = obtenerPendientes();
         municipios.splice(index, 1);
         guardarPendientes(municipios);
         renderTablaPendientes();
     }
-
-    function moverATablero(index) {
+    function moverATablero(index, nombreMunicipio) {
         let pendientes = obtenerPendientes();
         const municipioQuitado = pendientes.splice(index, 1)[0];
         guardarPendientes(pendientes);
-
         let principales = JSON.parse(localStorage.getItem("municipios")) || [];
         principales.push(municipioQuitado);
         localStorage.setItem("municipios", JSON.stringify(principales));
-
         renderTablaPendientes();
         renderTablaTablero();
+        mostrarMensaje(`✅ Municipio "${nombreMunicipio}" regresado al tablero principal.`, "success");
     }
-
     btnQuitarTodo.addEventListener("click", () => {
         let pendientes = obtenerPendientes();
         if (pendientes.length === 0) {
-            alert("No hay municipios pendientes para regresar.");
+            mostrarMensaje("⚠️ No hay municipios pendientes para regresar.", "error");
             return;
         }
         let tablero = JSON.parse(localStorage.getItem("municipios")) || [];
@@ -233,11 +222,10 @@ document.addEventListener("DOMContentLoaded", () => {
         localStorage.removeItem("municipiosPendientes");
         renderTablaPendientes();
         renderTablaTablero();
+        mostrarMensaje("✅ Todos los municipios pendientes regresaron al tablero principal.", "success");
     });
-
     renderTablaPendientes();
 });
-
 //----------------------------------------//
 //--|funcionalidad_tablero_de_municipio|--//
 //----------------------------------------//
@@ -246,23 +234,15 @@ document.addEventListener("DOMContentLoaded", () => {
     const inputArchivo = document.querySelector(".municipio-card input[type='file']");
     const btnAddMunicipio = document.querySelector(".municipio-card .btn-add");
     const tbody = document.querySelector(".tablero table tbody");
-
     const btnPendienteTodo = document.querySelector(".tablero .btns button:nth-child(1)");
     const btnEliminarTodo = document.querySelector(".tablero .btns button:nth-child(2)");
     const btnGuardarTodo = document.querySelector(".tablero .btns button:nth-child(3)");
-
-    //----------------------------------------
-    // Guardar en pendientes con límite (máx. 10)
-    //----------------------------------------
     function guardarPendiente(municipioObj) {
         let pendientes = JSON.parse(localStorage.getItem("municipiosPendientes")) || [];
-
-        // ✅ Condición: máximo 10 registros
         if (pendientes.length >= 10) {
-            alert("⚠️ Solo se permiten máximo 10 municipios en la lista de pendientes.");
+            mostrarMensaje("⚠️ Solo se permiten máximo 10 municipios en la lista de pendientes.", "error");
             return false;
         }
-
         if (!pendientes.some(m => m.nombre === municipioObj.nombre)) {
             pendientes.push(municipioObj);
             localStorage.setItem("municipiosPendientes", JSON.stringify(pendientes));
@@ -270,22 +250,13 @@ document.addEventListener("DOMContentLoaded", () => {
         }
         return false;
     }
-
-    //----------------------------------------
-    // Agregar fila al tablero principal
-    //----------------------------------------
     function agregarFila(municipioObj) {
         const tr = document.createElement("tr");
-
         const tdMunicipio = document.createElement("td");
         tdMunicipio.textContent = municipioObj.nombre;
-
         const tdArchivo = document.createElement("td");
         tdArchivo.textContent = municipioObj.archivo ? municipioObj.archivo : "Sin archivo";
-
         const tdAcciones = document.createElement("td");
-
-        // Icono pendiente
         const iconPendiente = document.createElement("i");
         iconPendiente.className = "fa-solid fa-clock";
         iconPendiente.style.cursor = "pointer";
@@ -293,14 +264,24 @@ document.addEventListener("DOMContentLoaded", () => {
         iconPendiente.style.color = "#f0ad4e";
         iconPendiente.title = "Marcar pendiente";
         iconPendiente.addEventListener("click", () => {
+            const pendientes = JSON.parse(localStorage.getItem("municipiosPendientes")) || [];
+            if (pendientes.length >= 10) {
+                mostrarMensaje("⚠️ No se pudo marcar como pendiente: límite de 10 alcanzado.", "error");
+                return;
+            }
+            if (pendientes.some(m => m.nombre === municipioObj.nombre)) {
+                mostrarMensaje(`⚠️ El municipio "${municipioObj.nombre}" ya está en pendientes.`, "error");
+                return;
+            }
             if (guardarPendiente(municipioObj)) {
                 eliminarMunicipio(municipioObj.nombre);
                 renderTablaTablero();
-                renderTablaPendientes();
+                if (typeof renderTablaPendientes === "function") {
+                    renderTablaPendientes();
+                }
+                mostrarMensaje(`⏳ Municipio "${municipioObj.nombre}" marcado como pendiente.`, "info");
             }
         });
-
-        // Icono eliminar con confirmación y mensaje
         const iconEliminar = document.createElement("i");
         iconEliminar.className = "fa-solid fa-trash";
         iconEliminar.style.cursor = "pointer";
@@ -311,42 +292,32 @@ document.addEventListener("DOMContentLoaded", () => {
             if (confirm(`¿Seguro que deseas eliminar el municipio "${municipioObj.nombre}"?`)) {
                 eliminarMunicipio(municipioObj.nombre);
                 renderTablaTablero();
-                alert(`🗑️ El municipio "${municipioObj.nombre}" ha sido eliminado.`);
+                mostrarMensaje(`🗑️ El municipio "${municipioObj.nombre}" ha sido eliminado exitosamente.`, "error");
             }
         });
-
-        // Icono enviar con mensaje
         const iconEnviar = document.createElement("i");
         iconEnviar.className = "fa-solid fa-paper-plane";
         iconEnviar.style.cursor = "pointer";
         iconEnviar.style.color = "blue";
         iconEnviar.title = "Enviar dato";
         iconEnviar.addEventListener("click", () => {
-            // ✅ Mensaje cuando se envía el dato
-            alert(`📤 El municipio "${municipioObj.nombre}" ha sido enviado correctamente.`);
+            mostrarMensaje(`📤 El municipio "${municipioObj.nombre}" ha sido enviado correctamente.`, "success");
         });
-
         tdAcciones.appendChild(iconPendiente);
         tdAcciones.appendChild(iconEliminar);
         tdAcciones.appendChild(iconEnviar);
-
         tr.appendChild(tdMunicipio);
         tr.appendChild(tdArchivo);
         tr.appendChild(tdAcciones);
         tbody.appendChild(tr);
     }
-
-    //----------------------------------------
-    // LocalStorage de tablero principal
-    //----------------------------------------
     function obtenerMunicipios() {
         return JSON.parse(localStorage.getItem("municipios")) || [];
     }
-
     function guardarMunicipio(nombre, archivo = null) {
         let municipios = obtenerMunicipios();
         if (municipios.some(m => m.nombre === nombre)) {
-            alert(`El municipio "${nombre}" ya está en la lista.`);
+            mostrarMensaje(`⚠️ El municipio "${nombre}" ya está en la lista.`, "error");
             return false;
         }
         municipios.push({
@@ -356,104 +327,72 @@ document.addEventListener("DOMContentLoaded", () => {
         localStorage.setItem("municipios", JSON.stringify(municipios));
         return true;
     }
-
     function eliminarMunicipio(nombre) {
         let municipios = obtenerMunicipios();
         municipios = municipios.filter(m => m.nombre !== nombre);
         localStorage.setItem("municipios", JSON.stringify(municipios));
     }
-
     function eliminarTodosMunicipios() {
         localStorage.removeItem("municipios");
     }
-
-    //----------------------------------------
-    // Render tablero
-    //----------------------------------------
     window.renderTablaTablero = function () {
         tbody.innerHTML = "";
         const municipiosGuardados = obtenerMunicipios();
         municipiosGuardados.forEach(m => agregarFila(m));
     };
-
-    //----------------------------------------
-    // Botón pendiente todo → mover todos a pendientes
-    //----------------------------------------
     btnPendienteTodo.addEventListener("click", () => {
         let tablero = obtenerMunicipios();
         if (tablero.length === 0) {
-            alert("No hay municipios en el tablero para marcar como pendientes.");
+            mostrarMensaje("⚠️ No hay municipios en el tablero para marcar como pendientes.", "error");
             return;
         }
-
         let pendientes = JSON.parse(localStorage.getItem("municipiosPendientes")) || [];
-
-        // ✅ Validar límite al mover todos
         if (pendientes.length + tablero.length > 10) {
-            alert("⚠️ No puedes mover todos. Superarías el límite de 10 pendientes.");
+            mostrarMensaje("⚠️ No puedes mover todos. Superarías el límite de 10 pendientes.", "error");
             return;
         }
-
         pendientes = pendientes.concat(tablero);
         localStorage.setItem("municipiosPendientes", JSON.stringify(pendientes));
-
         eliminarTodosMunicipios();
-
         renderTablaTablero();
-        renderTablaPendientes();
+        if (typeof renderTablaPendientes === "function") renderTablaPendientes();
+        mostrarMensaje("⏳ Todos los municipios del tablero fueron añadidos a pendientes.", "info");
     });
-
-    //----------------------------------------
-    // Botón añadir municipio con límite (máx. 17)
-    //----------------------------------------
     btnAddMunicipio.addEventListener("click", () => {
         const municipio = inputMunicipio.value.trim();
         const archivo = inputArchivo && inputArchivo.files.length > 0
             ? inputArchivo.files[0].name
             : null;
-
         let municipios = obtenerMunicipios();
-
         if (municipios.length >= 17) {
-            alert("⚠️ Solo se permiten máximo 17 municipios en el tablero.");
+            mostrarMensaje("⚠️ Solo se permiten máximo 17 municipios en el tablero.", "error");
             return;
         }
-
         if (municipio !== "") {
             if (guardarMunicipio(municipio, archivo)) {
                 renderTablaTablero();
                 inputMunicipio.value = "";
                 if (inputArchivo) inputArchivo.value = "";
+                mostrarMensaje(`✅ Municipio "${municipio}" añadido al tablero.`, "success");
             }
         } else {
-            alert("Escribe un municipio antes de añadir.");
+            mostrarMensaje("⚠️ Escribe un municipio antes de añadir.", "error");
         }
     });
-
-    //----------------------------------------
-    // Botón Guardar Todo
-    //----------------------------------------
     btnGuardarTodo.addEventListener("click", () => {
         const municipios = obtenerMunicipios();
         if (municipios.length === 0) {
-            alert("No hay municipios para guardar.");
+            mostrarMensaje("⚠️ No hay municipios para guardar.", "error");
             return;
         }
-        alert("✅ Municipios guardados con éxito.");
+        mostrarMensaje("✅ Municipios guardados con éxito.", "success");
     });
-
-    //----------------------------------------
-    // Botón Eliminar Todo
-    //----------------------------------------
     btnEliminarTodo.addEventListener("click", () => {
         if (confirm("¿Seguro que deseas eliminar todos los municipios del tablero?")) {
             eliminarTodosMunicipios();
             renderTablaTablero();
+            mostrarMensaje("🗑️ Se eliminaron todos los municipios del tablero.", "error");
         }
     });
-
-    //----------------------------------------
-    // Inicializar tablero principal
-    //----------------------------------------
     renderTablaTablero();
 });
