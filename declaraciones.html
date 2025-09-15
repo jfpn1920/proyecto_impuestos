@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>declaraciones</title>
+    <link rel="stylesheet" href="declaraciones.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
+    <script src="declaraciones.js" defer></script>
+</head>
+<body>
+    <!----------------------------------->
+    <!--|estructura_sesion_del_usuario|-->
+    <!----------------------------------->
+    <div class="contenedor">
+        <h1 class="titulo">Panel de Control</h1>
+        <div class="perfil">
+            <i class="fas fa-user-circle"></i>
+        </div>
+    </div>
+    <!--------------------------------->
+    <!--|estructura_menu_hamburguesa|-->
+    <!--------------------------------->
+    <header class="topbar">
+        <div class="menu-toggle" id="menu-toggle">
+            <i class="fas fa-bars"></i>
+        </div>
+        <span class="titulo">Instrumentos</span>
+    </header>
+    <nav class="sidebar" id="sidebar">
+        <ul>
+            <li><a href="dashboard.html"><i class="fas fa-home"></i> Dashboard</a></li>
+            <li><a href="municipios.html"><i class="fas fa-globe"></i> Municipios</a></li>
+            <li><a href="declaraciones.html"><i class="fas fa-file-signature"></i> Declaraciones</a></li>
+        </ul>
+    </nav>
+    <!------------------------------------>
+    <!--|estructura_contenedor_mensajes|-->
+    <!------------------------------------>
+    <div class="mensaje-contenedor">
+        <p class="mensajetexto">declaraciones</p>
+    </div>
+    <!--------------------------->
+    <!--|estructura_asignacion|-->
+    <!--------------------------->
+    <div class="container">
+        <div class="header">
+            <h3>asignados</h3>
+            <div class="actions">
+                <button class="btn-eliminar">Eliminar</button>
+                <button class="btn-seleccionar">seleccionar</button>
+            </div>
+        </div>
+        <div class="content">
+            <table class="municipios-table">
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Archivo</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- El tablero empieza vacío -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <!-------------------------------------------->
+    <!--|estructura_formulario_de_declaraciones|-->
+    <!-------------------------------------------->
+    <div class="excel-container">
+        <div class="header">
+            <h2>Formulario de Declaraciones</h2>
+            <div class="header-buttons">
+                <button type="submit" form="formDeclaraciones">Guardar</button>
+                <button type="reset" form="formDeclaraciones">Limpiar</button>
+            </div>
+        </div>
+        <form id="formDeclaraciones">
+            <table class="excel-table">
+                <thead>
+                    <tr>
+                        <th>Concepto</th>
+                        <th>Valor</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Ingresos totales del período</td>
+                        <td><input type="number" name="ingresosTotales" required></td>
+                    </tr>
+                    <tr>
+                        <td>Ingresos fuera del municipio</td>
+                        <td><input type="number" name="ingresosFuera" required></td>
+                    </tr>
+                    <tr>
+                        <td>Devoluciones</td>
+                        <td><input type="number" name="devoluciones" required></td>
+                    </tr>
+                    <tr>
+                        <td>Ingresos no sujetos</td>
+                        <td><input type="number" name="ingresosNoSujetos" required></td>
+                    </tr>
+                    <tr>
+                        <td>Ica</td>
+                        <td><input type="text" disabled placeholder="=7% * Ingreso"></td>
+                    </tr>
+                    <tr>
+                        <td>Avisos y tableros</td>
+                        <td><input type="text" disabled placeholder="=15% * ICA"></td>
+                    </tr>
+                    <tr>
+                        <td>Sobretasa bomberil</td>
+                        <td><input type="text" disabled placeholder="=2% * ICA"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </form>
+    </div>
+    <!---------------------------->
+    <!--|estructura_ver_archivo|-->
+    <!---------------------------->
+    <div class="contenedor2">
+        <div class="header2">
+            <h3>ver archivo</h3>
+            <div class="botones2">
+                <button >vista previa</button>
+                <button >editar archivo</button>
+            </div>
+        </div>
+        <div class="area2">
+            <!-- Aquí se mostrarán los archivos seleccionados -->
+        </div>
+    </div>
+    <!------------------------------->
+    <!--|estructura_agregar_imagen|-->
+    <!------------------------------->
+    <div class="contenedor3">
+        <div class="header3">
+            <h3 class="tituloimagen">agregar imagen</h3>
+            <div class="botones3">
+                <button>seleccionar imagen</button>
+                <button>quitar imagen</button>
+            </div>
+        </div>
+        <div class="area3">
+            <p class="parrafotexto">No hay imágenes cargadas</p>
+            <!-- Aquí se mostrarán las imágenes -->
+        </div>
+    </div>
+    <!----------------------------------->
+    <!--|estructura_contenido_de_datos|-->
+    <!----------------------------------->
+    <div class="contenedor4">
+        <h2>contenido de datos</h2>
+        <div class="contenido4">
+            <button class="caja4">recomendados</button>
+            <button class="caja4">diario y asiento</button>
+            <button class="caja4">validación y control</button>
+            <button class="caja4">visualizar y análizar</button>
+            <button class="caja4">usabilidad y diseño</button>
+        </div>
+    </div>
+</body>
+</html>

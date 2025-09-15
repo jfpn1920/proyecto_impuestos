@@ -3,9 +3,9 @@ body {
     font-family: Arial, sans-serif;
     background: #f4f4f4;
 }
-/*-------------------------------*/
-/*--|estilo_sesion_del_usuario|--*/
-/*-------------------------------*/
+/*------------------------------------*/
+/*--|estilo_base_sesion_del_usuario|--*/
+/*------------------------------------*/
 .contenedor {
     display: flex;
     justify-content: space-between;
@@ -31,9 +31,9 @@ body {
 .perfil i:hover {
     color: #00bcd4;
 }
-/*-----------------------------*/
-/*--|estilo_menu_hamburguesa|--*/
-/*-----------------------------*/
+/*----------------------------------*/
+/*--|estilo_base_menu_hamburguesa|--*/
+/*----------------------------------*/
 .topbar {
     display: flex;
     align-items: center;
@@ -91,9 +91,9 @@ body {
 .sidebar ul li a:hover {
     background: #444;
 }
-/*--------------------------------*/
-/*--|estilo_contenedor_mensajes|--*/
-/*--------------------------------*/
+/*-------------------------------------*/
+/*--|estilo_base_contenedor_mensajes|--*/
+/*-------------------------------------*/
 .mensaje-contenedor {
     position: relative;
     width: 1188px;
@@ -126,7 +126,7 @@ body {
     align-items: center;
     justify-content: center;
     transition: all 0.3s ease-in-out;
-    z-index: 9999;           /* ✅ se mantiene delante del resto */
+    z-index: 9999; 
 }
 .mensaje.success {
     background: #d4edda;
@@ -151,9 +151,9 @@ body {
     from { opacity: 1; transform: translateY(0); }
     to { opacity: 0; transform: translateY(-10px); }
 }
-/*---------------------------------*/
-/*--|estilo_agregar_el_municipio|--*/
-/*---------------------------------*/
+/*--------------------------------------*/
+/*--|estilo_base_agregar_el_municipio|--*/
+/*--------------------------------------*/
 .municipio-card {
     margin-top: 5px;
     margin-left: 210px;
@@ -192,9 +192,9 @@ body {
     border: 1px solid #333;
     border-radius: 5px;
 }
-/*-------------------------------*/
-/*--|estilo_agregar_el_archivo|--*/
-/*-------------------------------*/
+/*------------------------------------*/
+/*--|estilo_base_agregar_el_archivo|--*/
+/*------------------------------------*/
 .contenedor2 {
     width: 600px;
     border: 1px solid #333;
@@ -241,9 +241,9 @@ body {
     border-radius: 4px;
     background: white;
 }
-/*----------------------------------*/
-/*--|estilo_municipios_pendientes|--*/
-/*----------------------------------*/
+/*---------------------------------------*/
+/*--|estilo_base_municipios_pendientes|--*/
+/*---------------------------------------*/
 .container {
     background: #666;
     border: 1px solid #333;
@@ -300,9 +300,9 @@ body {
 .municipios-table tr:nth-child(even) {
     background: #f2f2f2;
 }
-/*---------------------------------*/
-/*--|estilo_tablero_de_municipio|--*/
-/*---------------------------------*/
+/*--------------------------------------*/
+/*--|estilo_base_tablero_de_municipio|--*/
+/*--------------------------------------*/
 .tablero {
     background: #666;
     border: 1px solid #333;
