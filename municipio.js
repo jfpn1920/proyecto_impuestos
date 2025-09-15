@@ -396,6 +396,3 @@ document.addEventListener("DOMContentLoaded", () => {
     });
     renderTablaTablero();
 });
-//-------------------------------//
-//--|funcionalidad_desconocido|--//
-//-------------------------------//

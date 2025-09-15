@@ -216,6 +216,11 @@ body {
 .municipios-table tr:nth-child(even) {
     background: #f2f2f2;
 }
+.municipios-table tr.selected {
+    background-color: #f44336 !important;
+    color: white;
+    font-weight: bold;
+}
 /*---------------------------------------------*/
 /*--|estilo_base_formulario_de_declaraciones|--*/
 /*---------------------------------------------*/
